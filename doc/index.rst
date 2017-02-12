@@ -12,6 +12,7 @@ Welcome to ThDriver's documentation!
 
    overview
    gettingstarted
+   modules/thdriver
 
 
 
