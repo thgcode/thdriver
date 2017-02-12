@@ -1,5 +1,6 @@
 from .client import Client
 class LineReceiver(Client):
+    """A client that receives lines."""
     buffer = ""
 
     def _dispatch_lines(self):
@@ -17,7 +18,15 @@ class LineReceiver(Client):
             self.buffer += data
 
     def lineReceived(self, line):
+        """A line of text was received.
+
+        :param line: The line that was received
+        :type line: str"""
         pass
 
     def sendLine(self, line):
+        """Sends a line of text to the client
+
+        :param line: The line that is to be sent
+        :type line: str"""
         return self.send(line + "\r\n")
