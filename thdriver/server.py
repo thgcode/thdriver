@@ -10,9 +10,9 @@ class Server(object):
     :type host: str
     :param port: The port that this server is bound to
     :type port: int
-    :param cclient: The client class that is to be instantiated when
+    :param cclass: The client class that is to be instantiated when
         someone connects to the server.
-    :type cclient: a child of thdriver.client.Client"""
+    :type cclass: a child of thdriver.client.Client"""
     def __init__(self, loop, host=None, port=4000, cclass=Client):
         self.loop = loop
         self.selector = DefaultSelector()

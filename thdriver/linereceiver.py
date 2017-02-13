@@ -29,4 +29,4 @@ class LineReceiver(Client):
 
         :param line: The line that is to be sent
         :type line: str"""
-        return self.send(line + "\r\n")
+        return self.send((line + "\r\n").encode("iso8859_1"))

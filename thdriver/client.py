@@ -12,7 +12,7 @@ class Client(object):
         self.sock = sock
         self.ip = ip
         self.crash = False
-        self.data_buffer = ""
+        self.data_buffer = b""
         self.connectionMade()
 
     def connectionMade(self):
@@ -70,9 +70,9 @@ class Client(object):
                 self.data_buffer = self.buffer[1024:]
             else:
                 b = self.data_buffer
-                self.data_buffer = ""
+                self.data_buffer = b""
             try:
-                return self.sock.sendall(b.encode("iso8859_1"))
+                return self.sock.sendall(b)
             except socket.error:
                 self.crashed()
 
@@ -80,7 +80,7 @@ class Client(object):
         """Sends data to the client.
 
         :param data: What is to be sent
-        :type data: str
+        :type data: bytes
         """
         self.data_buffer += data
 
