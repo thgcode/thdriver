@@ -1,9 +1,20 @@
+from .log import LogManager, Log
+import sys
 class Loop(object):
     """This class drives all interaction between ThDriver and your
     program."""
     def __init__(self):
         self.running = True
         self.callbacks = []
+        self.logs = LogManager()
+        self.logs.add_log(Log(sys.stdout))
+
+    def log(self, message):
+        """Sends a message to the loop's logging system.
+
+        :param message: What is to be sent
+        :type message: str"""
+        self.logs.write(message)
 
     def register_callback(self, type, function, *args, **kw):
         """Registers a function to be called a certain time at the main
@@ -64,11 +75,18 @@ class Loop(object):
 
         In the shutdown process, the main loop runs the callbacks in
         the "shutdown" type and then terminates."""
+        self.log("Starting main loop")
         if not self.run_callbacks("start"):
-            print("Error: Initial callbacks can't run")
+            self.log("Error: Initial callbacks can't run")
             return
+        self.log("Startup complete")
         self.remove_callbacks("start") # Frees used memory
-        print("Entering main loop.")
+        self.log("Entering main loop")
         while self.running:
-            self.running = self.run_callbacks("main")
+            try:
+                self.running = self.run_callbacks("main")
+            except KeyboardInterrupt:
+                self.running = False
+        self.log("Starting shutdown process")
         self.run_callbacks("shutdown")
+        self.log("Main loop terminated")

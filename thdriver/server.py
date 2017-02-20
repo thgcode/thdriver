@@ -32,13 +32,20 @@ class Server(object):
         self._process_listening()
         self.loop.register_callback("main", self.check)
         self.loop.register_callback("main", self._process_listening)
+        if host == "":
+            b = "all interfaces"
+        else:
+            b = host
+        self.loop.log("New server created binding to %s on port %d" % (b, port))
         return True
 
     def _close_server(self):
+        self.loop.log("Closing server")
         for c in self.clients[:]:
             c.close()
         self.sock.close()
         self.selector.close()
+        self.loop.log("Server closed")
         return True
 
     def _process_listening(self):
