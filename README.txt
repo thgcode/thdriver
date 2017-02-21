@@ -21,4 +21,4 @@ of the project.
 How to help
 All the help is very appreciated. Code changes, documentation bug reports
 and general bug fixes can be done using a pull request or issue in
-github.
+GitHub.
