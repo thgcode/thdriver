@@ -1,6 +1,8 @@
 import socket
 class Client(object):
     """Class that represents the connection with a internet client."""
+    RECV_SIZE = 4096
+
     def __init__(self, server, sock, ip):
         """Creates the class.
 
@@ -47,7 +49,7 @@ class Client(object):
 
     def _receive(self):
         try:
-            data = self.sock.recv(4096)
+            data = self.sock.recv(self.RECV_SIZE)
         except socket.error:
             self.crashed()
         else:
@@ -65,9 +67,9 @@ class Client(object):
 
     def _send(self):
         if not self.crash:
-            if len(self.data_buffer) > 1024:
-                b = self.data_buffer[:1024]
-                self.data_buffer = self.data_buffer[1024:]
+            if len(self.data_buffer) > self.RECV_SIZE:
+                b = self.data_buffer[:self.RECV_SIZE]
+                self.data_buffer = self.data_buffer[self.RECV_SIZE:]
             else:
                 b = self.data_buffer
                 self.data_buffer = b""

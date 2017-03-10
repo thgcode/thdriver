@@ -69,15 +69,16 @@ class Server(object):
         self._create_connection(*self.sock.accept())
 
     def check(self):
-        """Monitors the clients to see if data has arrived."""
+        """Monitors the clients to see if data has arrived and sends
+        outgoing data."""
         for c, e in self.selector.select(0.001):
             if e & EVENT_READ:
                 if c.fileobj is self.sock:
                     self._accept_connection()
                 else:
                     c.fileobj._receive()
-        for c in self.clients[:]:
-            c._send()
+            elif e & EVENT_WRITE and not c.fileobj == self.sock:
+                c.fileobj._send()
         return True
 
     def client_crashed(self, client):

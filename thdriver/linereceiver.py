@@ -4,10 +4,11 @@ class LineReceiver(Client):
     buffer = ""
 
     def _dispatch_lines(self):
-        lst = self.buffer.split("\n")
-        for l in lst:
-            self.lineReceived(l.strip())
-        self.buffer = ""
+        b = self.buffer.find("\n")
+        while b > -1:
+            self.lineReceived(self.buffer[:b + 1])
+            self.buffer = self.buffer[b + 1:]
+            b = self.buffer.find("\n")
 
     def dataReceived(self, data):
         data = data.decode("iso8859_1")
