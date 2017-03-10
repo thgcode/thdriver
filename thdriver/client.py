@@ -67,7 +67,7 @@ class Client(object):
         if not self.crash:
             if len(self.data_buffer) > 1024:
                 b = self.data_buffer[:1024]
-                self.data_buffer = self.buffer[1024:]
+                self.data_buffer = self.data_buffer[1024:]
             else:
                 b = self.data_buffer
                 self.data_buffer = b""
