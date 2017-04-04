@@ -1,8 +1,11 @@
 from .log import LogManager, Log
 import sys
+import time
 class Loop(object):
     """This class drives all interaction between ThDriver and your
     program."""
+    time_to_sleep = 0.0001
+
     def __init__(self):
         self.running = True
         self.callbacks = []
@@ -87,6 +90,7 @@ class Loop(object):
                 self.running = self.run_callbacks("main")
             except KeyboardInterrupt:
                 self.running = False
+            time.sleep(self.time_to_sleep)
         self.log("Starting shutdown process")
         self.run_callbacks("shutdown")
         self.log("Main loop terminated")
