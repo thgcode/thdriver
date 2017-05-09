@@ -2,6 +2,7 @@ from .client import Client
 class LineReceiver(Client):
     """A client that receives lines."""
     buffer = ""
+    encoding = "iso8859_1"
 
     def _dispatch_lines(self):
         b = self.buffer.find("\n")
@@ -11,7 +12,7 @@ class LineReceiver(Client):
             b = self.buffer.find("\n")
 
     def dataReceived(self, data):
-        data = data.decode("iso8859_1")
+        data = data.decode(self.encoding)
         if data.find("\n") > -1:
             self.buffer += data
             self._dispatch_lines() # Problem when several lines are received
@@ -30,4 +31,4 @@ class LineReceiver(Client):
 
         :param line: The line that is to be sent
         :type line: str"""
-        return self.send((line + "\r\n").encode("iso8859_1"))
+        return self.send((line + "\r\n").encode(self.encoding))

@@ -88,9 +88,9 @@ class Loop(object):
         while self.running:
             try:
                 self.running = self.run_callbacks("main")
+                time.sleep(self.time_to_sleep)
             except KeyboardInterrupt:
                 self.running = False
-            time.sleep(self.time_to_sleep)
         self.log("Starting shutdown process")
         self.run_callbacks("shutdown")
         self.log("Main loop terminated")
