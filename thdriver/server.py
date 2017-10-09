@@ -53,6 +53,7 @@ class Server(object):
             self.sock.listen(5)
             self.num_accepted = 5
         return True
+
     def _register_socket_for_select(self, socket):
         return self.selector.register(socket, EVENT_READ | EVENT_WRITE)
 
