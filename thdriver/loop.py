@@ -3,11 +3,16 @@ import sys
 import time
 class Loop(object):
     """This class drives all interaction between ThDriver and your
-    program."""
+    program.
+
+    :param suppress_logging: Controls if the loop will send log
+        messages to the terminal or will discard them.
+    :type suppress_logging: bool"""
     time_to_sleep = 0.0001
 
-    def __init__(self):
+    def __init__(self, suppress_logging=False):
         self.running = True
+        self.suppress_logging = suppress_logging
         self.callbacks = []
         self.logs = LogManager()
         self.logs.add_log(Log(sys.stdout))
@@ -17,7 +22,8 @@ class Loop(object):
 
         :param message: What is to be sent
         :type message: str"""
-        self.logs.write(message)
+        if not self.suppress_logging:
+            return self.logs.write(message)
 
     def register_callback(self, type, function, *args, **kw):
         """Registers a function to be called a certain time at the main
